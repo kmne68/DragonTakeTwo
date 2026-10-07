@@ -13,42 +13,35 @@
  */
 
 public class Map {
-    private int width;
-    private int height;
-    private int[][] map;
-    private String[] mapString;
+    private final String[] rows;
 
-    private String[] mapString = {
-        "############",
-        "#..........#",
-        "#..........#",
-        "#..........#",
-        "#..........#",
-        "#....b.....#", // box on the map
-        "#..........#",
-        "#..........#",
-        "#..........#",
-        "#..........#",
-        "#..........#",
-        "############"
-    };
+    public Map() {
+        rows = new String[] {
+            "############",
+            "#..........#",
+            "#..........#",
+            "#..........#",
+            "#..........#",
+            "#..........#",
+            "#..........#",
+            "#..........#",
+            "#..........#",
+            "#..........#",
+            "#..........#",
+            "############"
+        };
+    }
 
-    public Map(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.map = new int[width][height];
-        this.mapString = new String[width][height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                this.map[i][j] = 0;
-                this.mapString[i][j] = " ";
+    public void print(int playerX, int playerY) {
+    for (int y = 0; y < rows.length; y++) {
+        for (int x = 0; x < rows[y].length(); x++) {
+            if (x == playerX && y == playerY) {
+                System.out.print("@");
+            } else {
+                System.out.print(rows[y].charAt(x));
             }
         }
+        System.out.println();
     }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public String[]
+}
 }
