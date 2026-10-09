@@ -22,7 +22,7 @@ public class Map {
             "#..........#",
             "#..........#",
             "#..........#",
-            "#..........#",
+            "#....b.....#",
             "#..........#",
             "#..........#",
             "#..........#",
@@ -33,15 +33,25 @@ public class Map {
     }
 
     public void print(int playerX, int playerY) {
-    for (int y = 0; y < rows.length; y++) {
-        for (int x = 0; x < rows[y].length(); x++) {
-            if (x == playerX && y == playerY) {
-                System.out.print("@");
-            } else {
-                System.out.print(rows[y].charAt(x));
+        for (int y = 0; y < rows.length; y++) {
+            for (int x = 0; x < rows[y].length(); x++) {
+                if (x == playerX && y == playerY) {
+                    System.out.print("@");
+                } 
+                else {
+                    System.out.print(rows[y].charAt(x));
+                }
             }
+            System.out.println();
+
         }
-        System.out.println();
+        if (tileAt(playerX, playerY) == 'b')
+        {
+            System.out.println("It's a box!");
+        }
     }
-}
+
+    public char tileAt(int x, int y) {
+        return rows[y].charAt(x);
+    }
 }
