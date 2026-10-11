@@ -14,6 +14,7 @@
 
 public class Map {
     private final String[] rows;
+    private final char[][] tiles;
 
     public Map() {
         rows = new String[] {
@@ -30,16 +31,21 @@ public class Map {
             "#..........#",
             "############"
         };
+
+        tiles = new char[rows.length][rows[0].length()];
+        for(int i = 0; i < rows[0].length(); i++) {
+            tiles[i] = rows[i].toCharArray();
+        }
     }
 
     public void print(int playerX, int playerY) {
-        for (int y = 0; y < rows.length; y++) {
-            for (int x = 0; x < rows[y].length(); x++) {
+        for (int y = 0; y < tiles.length; y++) {
+            for (int x = 0; x < tiles[y].length; x++) {
                 if (x == playerX && y == playerY) {
                     System.out.print("@");
                 } 
                 else {
-                    System.out.print(rows[y].charAt(x));
+                    System.out.print(tiles[y][x]);
                 }
             }
             System.out.println();
@@ -52,6 +58,10 @@ public class Map {
     }
 
     public char tileAt(int x, int y) {
-        return rows[y].charAt(x);
+        return tiles[y][x];
+    }
+
+    public void setTile(int x, int y, char value) {
+        tiles[x][y] = value;
     }
 }

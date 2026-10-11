@@ -27,15 +27,19 @@ public class GameLoop {
     }
 
     private void update() {
-        // int result = player.move(1, 0);
-        int[] direction = getPlayerDirection();
-        int result = player.move(direction[0], direction[1]);
+        System.out.println("Enter a direction (w, a, s, d) or t take an object, i to print inventory:");
+        char command = scanner.next().charAt(0);
+        if(command == 't') {
+            take();
+        }
+        if(command == 'i') {
+            player.printInventory();
+        } else {
+            int[] direction = directionFor(command);
+            player.move(direction[0], direction[1]);
+        }
         map.print(player.getPositionX(), player.getPositionY());
 
-    //    if (result == -1) {
-    //        System.out.println("Invalid move");
-    //        return;
-    //    }
         System.out.println("Player is at position: " + player.getPositionX() + ", " + player.getPositionY());
         System.out.println("Updating game... turns remaining: " + turns);
     }
@@ -52,9 +56,9 @@ public class GameLoop {
 
     }
 
-    int[] getPlayerDirection() {
-        System.out.println("Enter a direction (w, a, s, d): ");
-        char direction = scanner.next().charAt(0);
+    int[] directionFor(char direction) {
+//        System.out.println("Enter a direction (w, a, s, d, t = take): ");
+//       char direction = scanner.next().charAt(0);
 
         switch (direction) {
             case 'w':
@@ -67,6 +71,18 @@ public class GameLoop {
                 return new int[] {1, 0};
             default:
                 return new int[] {0, 0};
+        }
+    }
+
+    private void take() {
+        int x = player.getPositionX();
+        int y = player.getPositionY();
+        if( map.tileAt(x, y) == 'b') {
+            map.setTile(x, y, '.');
+            System.out.println("You pick up the box");
+            player.addItemToInventory("box");
+        } else {
+            System.out.println("Nothing to take");
         }
     }
 }

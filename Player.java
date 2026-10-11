@@ -11,6 +11,8 @@
  * @see GameStateManager
  * @see GameStateManager
  */
+import java.util.List;
+import java.util.ArrayList;
 
 public class Player {
     private String name;
@@ -22,6 +24,7 @@ public class Player {
     private int experience;
     private int positionX;
     private int positionY;
+    private final List<String> inventory = new ArrayList<>();
 
     public Player(String name, int score, int level, int health, int mana, int gold, int experience, int positionX, int positionY) {
         this.name = name;
@@ -52,6 +55,16 @@ public class Player {
         this.positionX += x;
         this.positionY += y;
         return 0;
+    }
+
+    public void addItemToInventory(String name) {
+        inventory.add(name);
+    }
+
+    public void printInventory() {
+        for(int i = 0; i < inventory.size(); i++) {
+            System.out.println(inventory.get(i) + ", ");
+        }
     }
 }
 
