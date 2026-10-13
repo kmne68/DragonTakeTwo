@@ -24,7 +24,7 @@ public class Player {
     private int experience;
     private int positionX;
     private int positionY;
-    private final List<String> inventory = new ArrayList<>();
+    public final List<String> inventory = new ArrayList<>();
 
     public Player(String name, int score, int level, int health, int mana, int gold, int experience, int positionX, int positionY) {
         this.name = name;
@@ -59,6 +59,10 @@ public class Player {
 
     public void addItemToInventory(String name) {
         inventory.add(name);
+    }
+
+    public void removeItemFromInventory(String name) {
+        inventory.remove(name);
     }
 
     public void printInventory() {
