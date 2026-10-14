@@ -48,10 +48,10 @@ public class Player {
     }
 
     public int move(int x, int y) {
-        if (this.positionX + x < 1 || this.positionX + x > 10 || this.positionY + y < 1 || this.positionY + y > 10) {
-            System.out.println("Invalid move");
-            return -1;
-        }
+//        if (this.positionX + x < 1 || this.positionX + x > 10 || this.positionY + y < 1 || this.positionY + y > 10) {
+//            System.out.println("Invalid move");
+//            return -1;
+//        }
         this.positionX += x;
         this.positionY += y;
         return 0;

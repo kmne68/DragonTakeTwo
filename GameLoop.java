@@ -44,7 +44,15 @@ public class GameLoop {
             System.out.println("There is nothing in your inventory.");
         } else {
             int[] direction = directionFor(command);
-            player.move(direction[0], direction[1]);
+            int prospectiveX = player.getPositionX() + direction[0];
+            int prospectiveY = player.getPositionY() + direction[1];
+            if(map.tileAt(prospectiveX, prospectiveY) == '#') {
+                System.out.println("You've hit a wall. Try another direction.");
+            } else if(map.tileAt(prospectiveX, prospectiveY) == 'm') {
+                System.out.println("You've encountered a monster! Run away!");
+            } else {
+                player.move(direction[0], direction[1]);
+            }
         }
         map.print(player.getPositionX(), player.getPositionY());
 
@@ -65,9 +73,6 @@ public class GameLoop {
     }
 
     int[] directionFor(char direction) {
-//        System.out.println("Enter a direction (w, a, s, d, t = take): ");
-//       char direction = scanner.next().charAt(0);
-
         switch (direction) {
             case 'w':
                 return new int[] {0, -1};
