@@ -14,6 +14,7 @@ public class GameLoop {
     Player player;
     Map map = new Map();
     Scanner scanner = new Scanner(System.in);
+    public record Point(int x, int y) {};
 
     int turns = 10;
 
@@ -37,6 +38,32 @@ public class GameLoop {
         if(command == 'i') {
             player.printInventory();
         } 
+        if(command == 'f')
+        {
+            Point[] surroundingTiles = {
+                new Point(player.getPositionX() + 1, player.getPositionY()),
+                new Point(player.getPositionX(), player.getPositionY() + 1),
+                new Point(player.getPositionX() - 1, player.getPositionY()),
+                new Point(player.getPositionX(), player.getPositionY() - 1)
+            };
+
+            if(map.tileAt(surroundingTiles[0].x, surroundingTiles[0].y) == 'm') {
+                map.setTile(surroundingTiles[0].y, surroundingTiles[0].x, '.');
+                System.out.println("You have slain the M");
+            }
+            else if(map.tileAt(surroundingTiles[1].x, surroundingTiles[1].y) == 'm') {
+                map.setTile(surroundingTiles[1].y, surroundingTiles[1].x, '.');
+                System.out.println("You have slain the N");
+            }
+            else if(map.tileAt(surroundingTiles[2].x, surroundingTiles[2].y) == 'm') {
+                map.setTile(surroundingTiles[2].y, surroundingTiles[2].x, '.');
+                System.out.println("You have slain the O");
+            }
+            else if(map.tileAt(surroundingTiles[3].x, surroundingTiles[3].y) == 'm') {
+                map.setTile(surroundingTiles[3].y, surroundingTiles[3].x, '.');
+                System.out.println("You have slain the P");
+            }
+        }
         if(command == 'p' && !player.inventory.isEmpty()) {
             put();
         } 
