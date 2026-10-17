@@ -8,6 +8,7 @@
  * @see Map
  */
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GameLoop {
 
@@ -15,6 +16,7 @@ public class GameLoop {
     Map map = new Map();
     Scanner scanner = new Scanner(System.in);
     public record Point(int x, int y) {};
+    int monsterHealth = 10;
 
     int turns = 10;
 
@@ -40,6 +42,7 @@ public class GameLoop {
         } 
         if(command == 'f')
         {
+            
             Point[] surroundingTiles = {
                 new Point(player.getPositionX() + 1, player.getPositionY()),
                 new Point(player.getPositionX(), player.getPositionY() + 1),
@@ -48,6 +51,7 @@ public class GameLoop {
             };
 
             if(map.tileAt(surroundingTiles[0].x, surroundingTiles[0].y) == 'm') {
+                
                 map.setTile(surroundingTiles[0].y, surroundingTiles[0].x, '.');
                 System.out.println("You have slain the M");
             }
@@ -93,7 +97,7 @@ public class GameLoop {
         // int randomY = (int) (Math.random() * map.getHeight());
         // map.setBox(randomX, randomY);
 
-        player = new Player("Player", 0, 1, 100, 100, 0, 0, 3, 3);
+        player = new Player("Player", 0, 1, 10, 100, 0, 0, 3, 3);
         // player.spawn(map);
         System.out.println("Player spawned at position: " + player.getPositionX() + ", " + player.getPositionY());
 
@@ -134,5 +138,25 @@ public class GameLoop {
             System.out.println("You put down the box");
             player.removeItemFromInventory("box");
         }
+    }
+
+    private int attack() {
+        int damage = ThreadLocalRandom.current().nextInt(0, 4);
+        return damage;
+    }
+
+    private void melee() {
+        int[] healthStatuses = new int[2];
+        if (rollInitiative() == false) {
+            player.takeDamage(attack());
+        } else {
+            monsterHealth -= attack();
+        }
+        return healthStatuses;
+    }
+
+    private boolean rollInitiative() {
+        boolean whoseTurn = ThreadLocalRandom.current().nextBoolean();
+        return whoseTurn;
     }
 }

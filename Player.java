@@ -70,6 +70,18 @@ public class Player {
             System.out.println(inventory.get(i) + ", ");
         }
     }
+
+    public int getHealth() {
+        return this.health;
+    }
+
+    public void takeDamage(int damage) {
+        if (health - damage <= 0) {
+            System.out.println("You have entered Valhalla!");
+        } else {
+            health = Math.max(0, health - damage);
+        }
+    }
 }
 
 
