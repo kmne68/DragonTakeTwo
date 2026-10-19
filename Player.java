@@ -82,6 +82,14 @@ public class Player {
             health = Math.max(0, health - damage);
         }
     }
+
+    public boolean isDead() {
+        if(health <= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 
