@@ -42,6 +42,7 @@ public class GameLoop {
         } 
         if(command == 'f')
         {
+            fight:
             while(monsterHealth > 0 && !player.isDead()) {
                 Point[] surroundingTiles = {
                     new Point(player.getPositionX() + 1, player.getPositionY()),
@@ -52,34 +53,22 @@ public class GameLoop {
                 for(int i = 0; i <= surroundingTiles.length - 1; i++) {
                     if(map.tileAt(surroundingTiles[i].x, surroundingTiles[i].y) == 'm') {
                         melee();
-                        if(testForDead() == 1) {
+                        int meleeResult = testForDead();
+                        if(meleeResult == 1) {
                             System.out.println("Game over, man! Game over!");
+                            break fight;
                         }
-                        else if(testForDead() == 2) {
-                            map.setTile(surroundingTiles[i].y, surroundingTiles[i].x, '.');
+                        else if(meleeResult == 2) {
+                            map.setTile(surroundingTiles[i].x, surroundingTiles[i].y, '.');
                             System.out.println("You have slain the M");
-                        } else if(testForDead() == 0) {
+                            break fight;
+                        } else if(meleeResult == 0) {
                             continue;
                         }
                     }
                 }
             }
         }
-/*                else if(map.tileAt(surroundingTiles[1].x, surroundingTiles[1].y) == 'm') {
-                //    melee();
-                //    if(testForDead() = 1)
-                    map.setTile(surroundingTiles[1].y, surroundingTiles[1].x, '.');
-                    System.out.println("You have slain the N");
-                }
-                else if(map.tileAt(surroundingTiles[2].x, surroundingTiles[2].y) == 'm') {
-                    map.setTile(surroundingTiles[2].y, surroundingTiles[2].x, '.');
-                    System.out.println("You have slain the O");
-                }
-                else if(map.tileAt(surroundingTiles[3].x, surroundingTiles[3].y) == 'm') {
-                    map.setTile(surroundingTiles[3].y, surroundingTiles[3].x, '.');
-                    System.out.println("You have slain the P");
-                }
-            } */
         
         if(command == 'p' && !player.inventory.isEmpty()) {
             put();
@@ -177,13 +166,10 @@ public class GameLoop {
 
     private int testForDead() {
         if(player.isDead()) {
-            System.out.println("RIP player.");
             return 1;
         } else if(monsterHealth <= 0) {
-            System.out.println("You have slain the Jabberwocky!");
             return 2;
         }else {
-            System.out.println("The struggle continues...");
             return 0;
         }
     }
