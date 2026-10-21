@@ -13,6 +13,7 @@
  */
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Player {
     private String name;
@@ -88,6 +89,12 @@ public class Player {
         } else {
             return false;
         }
+    }
+
+    private int attack() {
+        int damage = ThreadLocalRandom.current().nextInt(0, 4);
+        System.out.println("Damage dealt: " + damage);
+        return damage;
     }
 }
 

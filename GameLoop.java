@@ -16,7 +16,8 @@ public class GameLoop {
     Map map = new Map();
     Scanner scanner = new Scanner(System.in);
     public record Point(int x, int y) {};
-    int monsterHealth = 10;
+    Goblin goblin = new Goblin("Goober", 1, 10, 0, 3, 7);
+    // int monsterHealth = 10;
 
     int turns = 10;
 
@@ -43,7 +44,7 @@ public class GameLoop {
         if(command == 'f')
         {
             fight:
-            while(monsterHealth > 0 && !player.isDead()) {
+            while(goblin.getHealth() > 0 && !player.isDead()) {
                 Point[] surroundingTiles = {
                     new Point(player.getPositionX() + 1, player.getPositionY()),
                     new Point(player.getPositionX(), player.getPositionY() + 1),
@@ -153,8 +154,8 @@ public class GameLoop {
             player.takeDamage(attack());
             System.out.println("Player health: " + player.getHealth());
         } else {
-            monsterHealth -= attack();
-            System.out.println("Monster health: " + monsterHealth);
+            goblin.takeDamage(attack());
+            System.out.println("Monster health: " + goblin.getHealth());
         }
     }
 
@@ -167,7 +168,7 @@ public class GameLoop {
     private int testForDead() {
         if(player.isDead()) {
             return 1;
-        } else if(monsterHealth <= 0) {
+        } else if(goblin.getHealth() <= 0) {
             return 2;
         }else {
             return 0;
