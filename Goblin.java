@@ -24,8 +24,8 @@ public class Goblin implements Monster {
     }
 
     public Point move(int x, int y) {
-        positionX += positionX;
-        positionY += positionY;
+        positionX += x;
+        positionY += y;
         Point newLocation = new Point(positionX, positionY);
         return newLocation;
 
@@ -43,8 +43,16 @@ public class Goblin implements Monster {
 
     public void takeDamage(int damage) {
         health = Math.max(0, health - damage);
-        if(health < 0) {
+        if(health == 0) {
             System.out.println("The monster has died");
         }
+    }
+
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
     }
 }

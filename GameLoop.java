@@ -23,6 +23,7 @@ public class GameLoop {
 
     public void run() {
         spawnPlayer();
+        map.setTile(goblin.getPositionX(), goblin.getPositionY(), 'm');
         map.print(player.getPositionX(), player.getPositionY());
         while (turns > 0) {
             update();
@@ -41,7 +42,7 @@ public class GameLoop {
         if(command == 'i') {
             player.printInventory();
         } 
-        if(command == 'f')
+        else if(command == 'f')
         {
             fight:
             while(goblin.getHealth() > 0 && !player.isDead()) {
@@ -71,10 +72,10 @@ public class GameLoop {
             }
         }
         
-        if(command == 'p' && !player.inventory.isEmpty()) {
+        else if(command == 'p' && !player.inventory.isEmpty()) {
             put();
         } 
-        if(command == 'p' && player.inventory.isEmpty()) {
+        else if(command == 'p' && player.inventory.isEmpty()) {
             System.out.println("There is nothing in your inventory.");
         } else {
             int[] direction = directionFor(command);
@@ -96,14 +97,8 @@ public class GameLoop {
 
 
     private void spawnPlayer() {
-        // int randomX = (int) (Math.random() * map.getWidth());
-        // int randomY = (int) (Math.random() * map.getHeight());
-        // map.setBox(randomX, randomY);
-
         player = new Player("Player", 0, 1, 10, 100, 0, 0, 3, 3);
-        // player.spawn(map);
         System.out.println("Player spawned at position: " + player.getPositionX() + ", " + player.getPositionY());
-
     }
 
     int[] directionFor(char direction) {
@@ -136,8 +131,8 @@ public class GameLoop {
     private void put() {
         int x = player.getPositionX();
         int y = player.getPositionY();
-        if(map.tileAt(y, x) == '.') {
-            map.setTile(y, x, 'b');
+        if(map.tileAt(x, y) == '.') {
+            map.setTile(x, y, 'b');
             System.out.println("You put down the box");
             player.removeItemFromInventory("box");
         }
