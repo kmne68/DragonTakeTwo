@@ -3,10 +3,11 @@
  * 
  * 
  */
-import java.awt.Point;
 
 public interface Monster {
 
-    Point move(int x, int y);
+    void move(int x, int y);
     int attack();
+    void takeDamage(int damage);
+    int getHealth();
 }

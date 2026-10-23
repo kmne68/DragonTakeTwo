@@ -62,6 +62,6 @@ public class Map {
     }
 
     public void setTile(int x, int y, char value) {
-        tiles[x][y] = value;
+        tiles[y][x] = value;
     }
 }

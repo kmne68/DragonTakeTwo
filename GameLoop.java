@@ -61,8 +61,8 @@ public class GameLoop {
                             break fight;
                         }
                         else if(meleeResult == 2) {
-                            map.setTile(surroundingTiles[i].x, surroundingTiles[i].y, '.');
                             System.out.println("You have slain the M");
+                            map.setTile(surroundingTiles[i].x, surroundingTiles[i].y, '.');
                             break fight;
                         } else if(meleeResult == 0) {
                             continue;

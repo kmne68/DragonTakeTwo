@@ -10,7 +10,7 @@ public class Goblin implements Monster {
     private String name;
     private int level;
     private int health;
-    private int treaure;
+    private int treasure;
     private int positionX;
     private int positionY;
 
@@ -18,16 +18,14 @@ public class Goblin implements Monster {
         this.name = name;
         this.level = level;
         this.health = health;
-        this.treaure = treasure;
+        this.treasure = treasure;
         this.positionX = positionX;
         this.positionY = positionY;
     }
 
-    public Point move(int x, int y) {
+    public void move(int x, int y) {
         positionX += x;
         positionY += y;
-        Point newLocation = new Point(positionX, positionY);
-        return newLocation;
 
     }
 
