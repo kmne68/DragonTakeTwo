@@ -53,4 +53,12 @@ public class Goblin implements Monster {
     public int getPositionY() {
         return positionY;
     }
+
+    public void setPositionX(int x) {
+        this.positionX = x;
+    }
+
+    public void setPositionY(int y) {
+        this.positionY = y;
+    }
 }

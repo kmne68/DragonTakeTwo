@@ -12,18 +12,28 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GameLoop {
 
-    Player player;
-    Map map = new Map();
-    Scanner scanner = new Scanner(System.in);
+    public final long seed;
+    public final Map map;
+    public final Scanner scanner;
+    
     public record Point(int x, int y) {};
-    Goblin goblin = new Goblin("Goober", 1, 10, 0, 3, 7);
-    // int monsterHealth = 10;
-
     int turns = 10;
+    private Player player;
+    private Goblin goblin;
+
+    public GameLoop(long seed) {
+        this.scanner = new Scanner(System.in);
+        this.seed = seed;
+        this.map = new Map();
+        map.generate(seed);
+        this.goblin = new Goblin("Goober", 1, 10, 0, map.getMonsterX(), map.getMonsterY());
+    }
+    
+
 
     public void run() {
         spawnPlayer();
-        map.setTile(goblin.getPositionX(), goblin.getPositionY(), 'm');
+        // map.setTile(goblin.getPositionX(), goblin.getPositionY(), 'm');
         map.print(player.getPositionX(), player.getPositionY());
         while (turns > 0) {
             update();

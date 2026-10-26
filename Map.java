@@ -11,10 +11,13 @@
  * @see GameStateManager
  * @see GameStateManager
  */
+import java.util.Random;
 
 public class Map {
     private final String[] rows;
     private final char[][] tiles;
+    private int monsterX;
+    private int monsterY;
 
     public Map() {
         rows = new String[] {
@@ -35,6 +38,28 @@ public class Map {
         tiles = new char[rows.length][rows[0].length()];
         for(int i = 0; i < rows[0].length(); i++) {
             tiles[i] = rows[i].toCharArray();
+        }
+    }
+
+    /**
+     * Fill every cell with #.
+     * Carve a floor rectangle inside the border (the current 10×10 of .).
+     * Place one b on a floor cell that is not the player start (3, 3).
+     * Place one m on a different floor cell.
+     * Use new Random(seed) so the same seed always places the box and monster in the same spots.
+     */
+    public void generate(long seed) {
+        Random random = new Random(seed);
+
+        int width = random.nextInt(10, 20);
+        int height = random.nextInt(10, 20);
+        monsterX = random.nextInt(11, 19);
+        monsterY = random.nextInt(11, 19);
+
+        for(int x = 0; x <= width; x++) {
+            for(int y = 0; y <= height; y++) {
+                System.out.println("#");
+            }
         }
     }
 
@@ -64,4 +89,13 @@ public class Map {
     public void setTile(int x, int y, char value) {
         tiles[y][x] = value;
     }
+
+    public int getMonsterX() {
+        return this.monsterX;
+    }
+
+    public int getMonsterY() {
+        return this.monsterY;
+    }
+
 }
