@@ -14,31 +14,15 @@
 import java.util.Random;
 
 public class Map {
-    private final String[] rows;
-    private final char[][] tiles;
+    private char[][] tiles;
+    private int width;
+    private int height;
     private int monsterX;
     private int monsterY;
+    private int boxX;
+    private int boxY;
 
     public Map() {
-        rows = new String[] {
-            "############",
-            "#..........#",
-            "#..........#",
-            "#..........#",
-            "#..........#",
-            "#....b.....#",
-            "#..........#",
-            "#..........#",
-            "#..........#",
-            "#..........#",
-            "#..........#",
-            "############"
-        };
-
-        tiles = new char[rows.length][rows[0].length()];
-        for(int i = 0; i < rows[0].length(); i++) {
-            tiles[i] = rows[i].toCharArray();
-        }
     }
 
     /**
@@ -50,17 +34,33 @@ public class Map {
      */
     public void generate(long seed) {
         Random random = new Random(seed);
+        width = random.nextInt(10, 20);
+        height = random.nextInt(10, 20);
+        tiles = new char[height][width];
+        System.out.println("Width: " + width + ", Height: " + height + ", Tiles.length: " + tiles.length);
 
-        int width = random.nextInt(10, 20);
-        int height = random.nextInt(10, 20);
-        monsterX = random.nextInt(11, 19);
-        monsterY = random.nextInt(11, 19);
-
-        for(int x = 0; x <= width; x++) {
-            for(int y = 0; y <= height; y++) {
-                System.out.println("#");
+        // Fill the map
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                tiles[y][x] = '#';
             }
         }
+
+        // Carve the room
+        for(int y = 1; y < height - 1; y++) {
+            for(int x = 1; x < width - 1; x++) {
+                tiles[y][x] = '.';
+            }
+        }        
+
+        int[] monster = placeOnFloor(3, 3, random); // 3, 3 are the initial player coordinates
+        monsterX = monster[0];
+        monsterY = monster[1];
+        tiles[monster[1]][monster[0]] = 'm';
+        int[] box = placeOnFloor(monsterX, monsterY, random);
+        boxX = box[0];
+        boxY = box[1];
+        tiles[box[1]][box[0]] = 'b';
     }
 
     public void print(int playerX, int playerY) {
@@ -80,6 +80,15 @@ public class Map {
         {
             System.out.println("It's a box!");
         }
+    }
+
+    public int[] placeOnFloor(int avoidX, int avoidY, Random random) {
+        int x, y;
+        do {
+            x = random.nextInt(1, width - 1);
+            y = random.nextInt(1, height - 1);
+        } while ((x == avoidX && y == avoidY) || tiles[y][x] != '.');
+        return new int[] { x, y };
     }
 
     public char tileAt(int x, int y) {

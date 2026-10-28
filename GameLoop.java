@@ -33,7 +33,6 @@ public class GameLoop {
 
     public void run() {
         spawnPlayer();
-        // map.setTile(goblin.getPositionX(), goblin.getPositionY(), 'm');
         map.print(player.getPositionX(), player.getPositionY());
         while (turns > 0) {
             update();
