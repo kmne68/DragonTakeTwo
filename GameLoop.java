@@ -62,7 +62,7 @@ public class GameLoop {
                     new Point(player.getPositionX(), player.getPositionY() - 1)
                 };
                 for(int i = 0; i <= surroundingTiles.length - 1; i++) {
-                    if(map.tileAt(surroundingTiles[i].x, surroundingTiles[i].y) == 'm') {
+                    if(map.tileAt(surroundingTiles[i].x, surroundingTiles[i].y).getSymbol() == 'm') {
                         melee();
                         int meleeResult = testForDead();
                         if(meleeResult == 1) {
@@ -90,9 +90,9 @@ public class GameLoop {
             int[] direction = directionFor(command);
             int prospectiveX = player.getPositionX() + direction[0];
             int prospectiveY = player.getPositionY() + direction[1];
-            if(map.tileAt(prospectiveX, prospectiveY) == '#') {
+            if(map.tileAt(prospectiveX, prospectiveY).getSymbol() == '#') {
                 System.out.println("You've hit a wall. Try another direction.");
-            } else if(map.tileAt(prospectiveX, prospectiveY) == 'm') {
+            } else if(map.tileAt(prospectiveX, prospectiveY).getSymbol() == 'm') {
                 System.out.println("You've encountered a monster! Run away!");
             } else {
                 player.move(direction[0], direction[1]);
@@ -128,7 +128,7 @@ public class GameLoop {
     private void take() {
         int x = player.getPositionX();
         int y = player.getPositionY();
-        if( map.tileAt(x, y) == 'b') {
+        if( map.tileAt(x, y).getSymbol() == 'b') {
             map.setTile(x, y, '.');
             System.out.println("You pick up the box");
             player.addItemToInventory("box");
@@ -140,7 +140,7 @@ public class GameLoop {
     private void put() {
         int x = player.getPositionX();
         int y = player.getPositionY();
-        if(map.tileAt(x, y) == '.') {
+        if(map.tileAt(x, y).getSymbol() == '.') {
             map.setTile(x, y, 'b');
             System.out.println("You put down the box");
             player.removeItemFromInventory("box");

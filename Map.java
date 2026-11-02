@@ -14,8 +14,9 @@
 import java.util.Random;
 
 public class Map {
-    private char[][] tiles;
+    private Tile [][] tiles;
     private int width;
+    private int length;
     private int height;
     private int monsterX;
     private int monsterY;
@@ -35,32 +36,33 @@ public class Map {
     public void generate(long seed) {
         Random random = new Random(seed);
         width = random.nextInt(10, 20);
-        height = random.nextInt(10, 20);
-        tiles = new char[height][width];
-        System.out.println("Width: " + width + ", Height: " + height + ", Tiles.length: " + tiles.length);
+        length = random.nextInt(10, 20);
+        height = random.nextInt(5, 8);
+        tiles = new Tile[length][width];
+        System.out.println("Width: " + width + ", length: " + length + ", Tiles.length: " + tiles.length);
 
         // Fill the map
-        for(int y = 0; y < height; y++) {
+        for(int y = 0; y < length; y++) {
             for(int x = 0; x < width; x++) {
-                tiles[y][x] = '#';
+                tiles[y][x] = new Tile('#', height);
             }
         }
 
         // Carve the room
-        for(int y = 1; y < height - 1; y++) {
+        for(int y = 1; y < length - 1; y++) {
             for(int x = 1; x < width - 1; x++) {
-                tiles[y][x] = '.';
+                tiles[y][x].setSymbol('.');
             }
         }        
 
         int[] monster = placeOnFloor(3, 3, random); // 3, 3 are the initial player coordinates
         monsterX = monster[0];
         monsterY = monster[1];
-        tiles[monster[1]][monster[0]] = 'm';
+        tiles[monster[1]][monster[0]].setSymbol('m');
         int[] box = placeOnFloor(monsterX, monsterY, random);
         boxX = box[0];
         boxY = box[1];
-        tiles[box[1]][box[0]] = 'b';
+        tiles[box[1]][box[0]].setSymbol('b');
     }
 
     public void print(int playerX, int playerY) {
@@ -70,13 +72,13 @@ public class Map {
                     System.out.print("@");
                 } 
                 else {
-                    System.out.print(tiles[y][x]);
+                    System.out.print(tiles[y][x].getSymbol());
                 }
             }
             System.out.println();
 
         }
-        if (tileAt(playerX, playerY) == 'b')
+        if (tileAt(playerX, playerY).getSymbol() == 'b')
         {
             System.out.println("It's a box!");
         }
@@ -86,17 +88,17 @@ public class Map {
         int x, y;
         do {
             x = random.nextInt(1, width - 1);
-            y = random.nextInt(1, height - 1);
-        } while ((x == avoidX && y == avoidY) || tiles[y][x] != '.');
+            y = random.nextInt(1, length - 1);
+        } while ((x == avoidX && y == avoidY) || tiles[y][x].getSymbol() != '.');
         return new int[] { x, y };
     }
 
-    public char tileAt(int x, int y) {
+    public Tile tileAt(int x, int y) {
         return tiles[y][x];
     }
 
     public void setTile(int x, int y, char value) {
-        tiles[y][x] = value;
+        tiles[y][x].setSymbol(value);
     }
 
     public int getMonsterX() {
