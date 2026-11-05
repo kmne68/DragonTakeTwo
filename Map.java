@@ -15,6 +15,8 @@ import java.util.Random;
 
 public class Map {
     private Tile [][] tiles;
+    private int canvasWidth;
+    private int canvasLength;
     private int minWidth, minLength, minHeight;
     private int maxWidth, maxLength, maxHeight;
     private int width;
@@ -38,6 +40,8 @@ public class Map {
     public void generate(long seed) {
         Random random = new Random(seed);      
         boolean special = random.nextInt(100) < 10;
+        canvasWidth = 100;        
+        canvasLength = 100;
         if(special) {
             minWidth = 25; maxWidth = 50;
             minLength = 25; maxLength = 50;
@@ -55,6 +59,25 @@ public class Map {
         tiles = new Tile[length][width];
         System.out.println("Width: " + width + ", length: " + length + ", Tiles.length: " + tiles.length);
 
+        int doorWall = random.nextInt(4);
+        Tile doorTile = null;
+        switch(doorWall) {
+            // North wall
+            case 0:
+                doorTile = tiles[0][random.nextInt(1, width - 1)];
+                break;
+            // South wall
+            case 1:
+                doorTile = tiles[length - 1][random.nextInt(1, width - 1)];
+                break;
+            // West wall
+            case 2:
+                doorTile = tiles[random.nextInt(1, length - 1)][0];
+                break;
+            // East wall
+            case 3:
+                doorTile = tiles[random.nextInt(1, length - 1)][width - 1];
+                break;
         // Fill the map
         for(int y = 0; y < length; y++) {
             for(int x = 0; x < width; x++) {
