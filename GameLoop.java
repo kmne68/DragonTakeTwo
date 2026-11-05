@@ -94,6 +94,8 @@ public class GameLoop {
                 System.out.println("You've hit a wall. Try another direction.");
             } else if(map.tileAt(prospectiveX, prospectiveY).getSymbol() == 'm') {
                 System.out.println("You've encountered a monster! Run away!");
+            } else if(map.tileAt(prospectiveX, prospectiveY).getSymbol() == 'o') {
+                System.out.println("You've encountered a pillar! Try another direction.");
             } else {
                 player.move(direction[0], direction[1]);
             }

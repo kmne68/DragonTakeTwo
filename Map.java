@@ -15,6 +15,8 @@ import java.util.Random;
 
 public class Map {
     private Tile [][] tiles;
+    private int minWidth, minLength, minHeight;
+    private int maxWidth, maxLength, maxHeight;
     private int width;
     private int length;
     private int height;
@@ -34,10 +36,22 @@ public class Map {
      * Use new Random(seed) so the same seed always places the box and monster in the same spots.
      */
     public void generate(long seed) {
-        Random random = new Random(seed);
-        width = random.nextInt(10, 20);
-        length = random.nextInt(10, 20);
-        height = random.nextInt(5, 8);
+        Random random = new Random(seed);      
+        boolean special = random.nextInt(100) < 10;
+        if(special) {
+            minWidth = 25; maxWidth = 50;
+            minLength = 25; maxLength = 50;
+            minHeight = 15; maxHeight = 40;
+            System.out.println("Special room: large, vaulted, or other.");
+        }
+        else {
+            minWidth = 10; maxWidth = 20;
+            minLength = 10; maxLength = 20;
+            minHeight = 8; maxHeight = 10;
+        }
+        width = random.nextInt(minWidth, maxWidth);
+        length = random.nextInt(minLength, maxLength);
+        height = random.nextInt(minHeight, maxHeight);
         tiles = new Tile[length][width];
         System.out.println("Width: " + width + ", length: " + length + ", Tiles.length: " + tiles.length);
 
@@ -53,7 +67,7 @@ public class Map {
             for(int x = 1; x < width - 1; x++) {
                 tiles[y][x].setSymbol('.');
             }
-        }        
+        }     
 
         int[] monster = placeOnFloor(3, 3, random); // 3, 3 are the initial player coordinates
         monsterX = monster[0];
@@ -63,6 +77,10 @@ public class Map {
         boxX = box[0];
         boxY = box[1];
         tiles[box[1]][box[0]].setSymbol('b');
+
+        if(width > 30 || length > 30) {
+            placePillars();
+        }
     }
 
     public void print(int playerX, int playerY) {
@@ -82,6 +100,7 @@ public class Map {
         {
             System.out.println("It's a box!");
         }
+        System.out.println("Ceiling: " + tiles[playerY][playerX].getHeight());
     }
 
     public int[] placeOnFloor(int avoidX, int avoidY, Random random) {
@@ -109,4 +128,31 @@ public class Map {
         return this.monsterY;
     }
 
+    private void placePillars() {
+        if (width <= 30) return;
+
+        int gap = 8;
+
+        int startX = pillarStart(width, gap);
+        int startY = pillarStart(height, gap);
+        if (startX < 1 || startY < 1) return;
+
+        for (int x = startX; x < width - 1; x += gap) {
+            for (int y = startY; y < height - 1; y += gap) {
+                if (tiles[y][x].getSymbol() == '.') {
+                    tiles[y][x].setSymbol('o');
+                }
+            }
+        }
+    }
+
+   private int pillarStart(int size, int gap) {
+    int runs = size / gap;
+    int span = runs * (gap - 1);
+    int endSum = size - span;
+    int topGap = endSum / 2;
+    System.out.println("Runs: " + runs + ", Span: " + span + ", EndSum: " + endSum + ", TopGap: " + topGap);
+    return topGap;
+   }
+   
 }
