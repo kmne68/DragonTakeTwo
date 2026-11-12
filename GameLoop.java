@@ -108,7 +108,9 @@ public class GameLoop {
 
 
     private void spawnPlayer() {
-        player = new Player("Player", 0, 1, 10, 100, 0, 0, 3, 3);
+        int playerX = map.getOriginX() + 3;
+        int playerY = map.getOriginY() + 3;
+        player = new Player("Player", 0, 1, 10, 100, 0, 0, playerX, playerY);
         System.out.println("Player spawned at position: " + player.getPositionX() + ", " + player.getPositionY());
     }
 
