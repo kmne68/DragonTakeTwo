@@ -17,7 +17,7 @@ public class GameLoop {
     public final Scanner scanner;
     
     public record Point(int x, int y) {};
-    int turns = 10;
+    int turns = 100;
     private Player player;
     private Goblin goblin;
 

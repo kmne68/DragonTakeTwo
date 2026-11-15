@@ -69,15 +69,6 @@ public class Map {
             }
         }
 
-        // Carve the room
-        /*
-        for(int y = 1; y < length - 1; y++) {
-            for(int x = 1; x < width - 1; x++) {
-                tiles[y][x].setSymbol('.');
-            }
-        }     
-        */
-
         for(int y = originY + 1; y < originY + roomLength - 1; y++) {
             for(int x = originX + 1; x < originX + roomWidth - 1; x++) {
                 tiles[y][x].setSymbol('.');
@@ -141,6 +132,10 @@ public class Map {
         {
             System.out.println("It's a box!");
         }
+        if (tileAt(playerX, playerY).getSymbol() == 'D')
+        {
+            System.out.println("You found the door.");
+        }
         System.out.println("Ceiling: " + tiles[playerY][playerX].getHeight());
     }
 
@@ -172,14 +167,14 @@ public class Map {
     private void placePillars() {
         if (roomWidth <= 30) return;
 
-        int gap = 8;
+        int gap = 7;
 
-        int startX = pillarStart(roomWidth + originX, gap);
-        int startY = pillarStart(roomLength + originY, gap);
-        if (startX < 1 || startY < 1) return;
+        int startX = pillarStart(roomWidth, gap);
+        int startY = pillarStart(roomLength, gap);
+        if (startX + originX < 1 || startY + originY < 1) return;
 
-        for (int x = startX; x < roomWidth - 1; x += gap) {
-            for (int y = startY; y < roomLength - 1; y += gap) {
+        for (int x = startX + originX; x < roomWidth + originX - 1; x += gap) {
+            for (int y = startY + originY; y < roomLength + originY -1; y += gap) {
                 if (tiles[y][x].getSymbol() == '.') {
                     tiles[y][x].setSymbol('o');
                 }
@@ -188,10 +183,10 @@ public class Map {
     }
 
    private int pillarStart(int size, int gap) {
-    int runs = size / gap;
-    int span = runs * (gap - 1);
-    int endSum = size - span;
-    int topGap = endSum / 2;
+    int runs = size / gap;          // the number of rows or columns of pillars
+    int span = runs * (gap - 1);    // the area within the four corner pillars
+    int endSum = size - span;       // the sum of the area outside the first and last runs
+    int topGap = endSum / 2;        // the gap between the north wall and the north most run
     System.out.println("Runs: " + runs + ", Span: " + span + ", EndSum: " + endSum + ", TopGap: " + topGap);
     return topGap;
    }
