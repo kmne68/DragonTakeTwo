@@ -69,6 +69,11 @@ public class Map {
             }
         }
 
+        carveRoom(originX, originY, roomWidth, roomLength, random);
+    }
+
+
+    public void carveRoom(int originX, int originY, int roomWidth, int roomLength, Random random) {
         for(int y = originY + 1; y < originY + roomLength - 1; y++) {
             for(int x = originX + 1; x < originX + roomWidth - 1; x++) {
                 tiles[y][x].setSymbol('.');
@@ -115,7 +120,7 @@ public class Map {
         }
     }
 
-    public void print(int playerX, int playerY) {
+    public void display(int playerX, int playerY) {
         for (int y = 0; y < tiles.length; y++) {
             for (int x = 0; x < tiles[y].length; x++) {
                 if (x == playerX && y == playerY) {

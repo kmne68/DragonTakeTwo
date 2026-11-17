@@ -33,7 +33,7 @@ public class GameLoop {
 
     public void run() {
         spawnPlayer();
-        map.print(player.getPositionX(), player.getPositionY());
+        map.display(player.getPositionX(), player.getPositionY());
         while (turns > 0) {
             update();
             turns--;
@@ -100,7 +100,7 @@ public class GameLoop {
                 player.move(direction[0], direction[1]);
             }
         }
-        map.print(player.getPositionX(), player.getPositionY());
+        map.display(player.getPositionX(), player.getPositionY());
 
         System.out.println("Player is at position: " + player.getPositionX() + ", " + player.getPositionY());
         System.out.println("Updating game... turns remaining: " + (turns - 1));
