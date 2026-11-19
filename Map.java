@@ -106,14 +106,14 @@ public class Map {
                 break;
         }
 
-        int[] monster = placeOnFloor(3, 3, random); // 3, 3 are the initial player coordinates
+        int[] monster = placeOnFloor(originX, originY, roomWidth, roomLength, 3, 3, random); // 3, 3 are the initial player coordinates
         monsterX = monster[0];
         monsterY = monster[1];
-        tiles[monster[1] + originY][monster[0] + originX].setSymbol('m');
-        int[] box = placeOnFloor(monsterX, monsterY, random);
+        tiles[monster[1]][monster[0]].setSymbol('m');
+        int[] box = placeOnFloor(originX, originY, roomWidth, roomLength, monsterX, monsterY, random);
         boxX = box[0];
         boxY = box[1];
-        tiles[box[1] + originY][box[0] + originX].setSymbol('b');
+        tiles[box[1]][box[0]].setSymbol('b');
 
         if(roomWidth > 30 || roomLength > 30) {
             placePillars();
@@ -144,12 +144,12 @@ public class Map {
         System.out.println("Ceiling: " + tiles[playerY][playerX].getHeight());
     }
 
-    public int[] placeOnFloor(int avoidX, int avoidY, Random random) {
+    public int[] placeOnFloor(int originX, int originY, int roomWidth, int roomLength, int avoidX, int avoidY, Random random) {
         int x, y;
         do {
-            x = random.nextInt(1, roomWidth - 1);
-            y = random.nextInt(1, roomLength - 1);
-        } while ((x == avoidX && y == avoidY) || tiles[y][x].getSymbol() != '.');
+            x = originX + random.nextInt(1, roomWidth - 1);
+            y = originY + random.nextInt(1, roomLength - 1);
+        } while ((x == originX + avoidX && y == originY + avoidY) || tiles[y][x].getSymbol() != '.');
         return new int[] { x, y };
     }
 
